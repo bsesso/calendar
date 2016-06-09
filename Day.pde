@@ -61,7 +61,7 @@ class Day implements ControlListener {
 		text(Integer.toString(day), x + 10, y + 22);
 	}
 
-	public void controlEvent(ControlEvent theEvent) {
+	void controlEvent(ControlEvent theEvent) {
 	    this.active = theEvent.getController().isActive();
 	}
 }

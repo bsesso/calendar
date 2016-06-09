@@ -18,7 +18,7 @@ public class calendar extends PApplet {
 
 
 
-ControlP5 cp5;
+ControlP5 cp5, cp5_extra;
 Calendar calendar;
 
 int activeColor = color(0, 200, 30);
@@ -26,12 +26,52 @@ int unactiveColor = color(255);
 
 
 public void setup() {
+	// pixelDensity(displayDensity());
 	
-	
-	
+
 	cp5 = new ControlP5(this);
+
+	// Disable the auto draw for cp5 controller. With this we can draw cp5 manually and so
+	// draw things over the controlP5 elements. 
 	cp5.setAutoDraw(false);
 
+	// cp5_extra contains the buttons on the upper right corner 
+	cp5_extra = new ControlP5(this);
+
+	cp5_extra.addButton("selectAll")
+			.setPosition(490, 70)
+			.setSize(70, 30)
+			.setCaptionLabel("All");
+
+	cp5_extra.addButton("reset")
+			.setPosition(580, 70)
+			.setSize(70, 30)
+			.setCaptionLabel("Reset");
+
+	cp5_extra.addButton("ok")
+			.setPosition(670, 70)
+			.setSize(70, 30)
+			.setCaptionLabel("OK");
+
+	Textfield t = cp5_extra.addTextfield("eventName")
+		    .setPosition(180,70)
+		    .setSize(130,40)
+		    .setFont(createFont("arial", 20))
+		    .setColor(color(255))
+		    .setAutoClear(false);
+
+	t.getCaptionLabel()
+		.setText("\u30a4\u30d9\u30f3\u30c8\u540d")
+	  	.align(ControlP5.LEFT_OUTSIDE, CENTER)
+		.getStyle().setPaddingLeft(-10);
+
+	// Calendar(x, y, width, height)
+	//     | Class representing the whole calendar, including the days and upper titles.
+	//
+	// configure(startDay, nDays)
+	//	   | Method of Calendar class.
+	//	   | 	startDay - Represents which column day 1 is. (index start from 0)
+	//	   |    nDays - number of days on month
 	calendar = new Calendar(50, 50, 700, 500)
 					.configure(3, 30);
 
@@ -40,16 +80,23 @@ public void setup() {
 
 public void draw() {
 	calendar.draw();
-
-
-	if (keyPressed && key == 'c') {
-		calendar.clear();
-	}
-	if (keyPressed && key == 'a') {
-		calendar.selectAll();
-	}
 }
+
+public void selectAll() {
+	calendar.selectAll();
+}
+
+public void reset() {
+	calendar.clear();
+}
+
+public void ok() {
+
+}
+// Calendar(x, y, width, height)
+//     | Class representing the whole calendar, including the days and upper titles.
 class Calendar {
+
 	Day[][] calendar = new Day[7][5];
 	int x, y, width, height;
 
@@ -82,10 +129,14 @@ class Calendar {
 
 		int dayWidth = calWidth / 7;
 		int dayHeight = calHeight / 5;
+
+		// Set each day of the calendar.
 		for (int i = 0; i < calendar.length; i++) {
 			for (int j = 0; j < calendar[i].length; j++) {
+				// Set the name and add to the controller each toggle button
 				String toggle = "day" + Integer.toString(i) + Integer.toString(j);
 				cp5.addToggle(toggle);
+				// add to the matrix of days (calendar) the created and configurated day
 				calendar[i][j] = new Day(cp5.getController(toggle))
 								.setPosition(calX + i * dayWidth, calY + j * dayHeight)
 								.setSize(dayWidth, dayHeight);
@@ -93,6 +144,11 @@ class Calendar {
 		}
 	}
 
+
+	// configure(startDay, nDays)
+	//	   | Method of Calendar class.
+	//	   | 	startDay - Represents which column day 1 is. (index start from 0)
+	//	   |    nDays - number of days on month
 	public Calendar configure(int startDay, int nDays) {
 		for (int n = 0; n < nDays; n++) {
 			int i = (startDay + n) % 7;
@@ -228,7 +284,7 @@ class Day implements ControlListener {
 	    this.active = theEvent.getController().isActive();
 	}
 }
-  public void settings() { 	size(800, 800); 	smooth(); 	pixelDensity(displayDensity()); }
+  public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "calendar" };
     if (passedArgs != null) {

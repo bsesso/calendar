@@ -1,4 +1,7 @@
+// Calendar(x, y, width, height)
+//     | Class representing the whole calendar, including the days and upper titles.
 class Calendar {
+
 	Day[][] calendar = new Day[7][5];
 	int x, y, width, height;
 
@@ -31,10 +34,14 @@ class Calendar {
 
 		int dayWidth = calWidth / 7;
 		int dayHeight = calHeight / 5;
+
+		// Set each day of the calendar.
 		for (int i = 0; i < calendar.length; i++) {
 			for (int j = 0; j < calendar[i].length; j++) {
+				// Set the name and add to the controller each toggle button
 				String toggle = "day" + Integer.toString(i) + Integer.toString(j);
 				cp5.addToggle(toggle);
+				// add to the matrix of days (calendar) the created and configurated day
 				calendar[i][j] = new Day(cp5.getController(toggle))
 								.setPosition(calX + i * dayWidth, calY + j * dayHeight)
 								.setSize(dayWidth, dayHeight);
@@ -42,6 +49,11 @@ class Calendar {
 		}
 	}
 
+
+	// configure(startDay, nDays)
+	//	   | Method of Calendar class.
+	//	   | 	startDay - Represents which column day 1 is. (index start from 0)
+	//	   |    nDays - number of days on month
 	Calendar configure(int startDay, int nDays) {
 		for (int n = 0; n < nDays; n++) {
 			int i = (startDay + n) % 7;
