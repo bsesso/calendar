@@ -11,7 +11,9 @@ class Calendar {
 
 	int titleX, titleY, titleWidth, titleHeight;
 
-	Calendar (int x, int y, int w, int h) {
+  ControlP5 cont;
+
+	Calendar (int x, int y, int w, int h, ControlP5 cont) {
 		this.x = x;
 		this.y = y;
 		this.width = w;
@@ -32,6 +34,8 @@ class Calendar {
 		this.titleX = x;
 		this.titleY = y;
 
+    this.cont = cont;
+
 		int dayWidth = calWidth / 7;
 		int dayHeight = calHeight / 5;
 
@@ -40,9 +44,9 @@ class Calendar {
 			for (int j = 0; j < calendar[i].length; j++) {
 				// Set the name and add to the controller each toggle button
 				String toggle = "day" + Integer.toString(i) + Integer.toString(j);
-				cp5.addToggle(toggle);
+				cont.addToggle(toggle);
 				// add to the matrix of days (calendar) the created and configurated day
-				calendar[i][j] = new Day(cp5.getController(toggle))
+				calendar[i][j] = new Day(cont.getController(toggle))
 								.setPosition(calX + i * dayWidth, calY + j * dayHeight)
 								.setSize(dayWidth, dayHeight);
 			}
@@ -65,12 +69,16 @@ class Calendar {
 	}
 
 	void selectAll() {
-		for (Day[] row : calendar) {
-			for (Day day : row) {
-				if (day.day > 0)
-					day.setActive(true);
+		for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 7; j++) {
+				if (calendar[j][i].day > 0) {
+					calendar[j][i].setActive(true);
+
+          println(calendar[j][i].active);
+        }
 			}
 		}
+  
 	}
 
 	void clear() {
@@ -110,11 +118,37 @@ class Calendar {
 		text("6月", titleX + titleWidth / 2, 24 + titleY + titleHeight / 2);
 	}
 
+  int[] selectedDays() {
+    
+    int count = 0;
+    
+    for (Day[] row : calendar) {
+      for (Day day : row) {
+        if (day.active) {
+          count++;
+        }
+      }
+    }
+    
+    int days[] = new int[count];
+    
+    int i = 0;
+    for (int j = 0; j < 5; j++) {
+      for (int k = 0; k < 7; k++) {
+        if (calendar[k][j].active) {
+          days[i++] = calendar[k][j].day;
+        }
+      }
+    }
+    
+    return days;
+  }
+
 	void draw() {
 		drawTitle();
 		drawWDays();
 
-		cp5.draw();
+		cont.draw();
 		for (Day[] row : calendar) {
 			for (Day day : row) {
 				day.draw();

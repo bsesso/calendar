@@ -32,8 +32,8 @@ class Day implements ControlListener {
 	}
 
 	Day setActive(boolean act) {
-		this.active = act;
-		controller.setState(this.active);
+		controller.setState(act);
+    this.active = act;
 
 		return this;
 	}
