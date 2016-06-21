@@ -79,10 +79,8 @@ class ResultScreen {
 
     for (int entryDay : person.entryDays) {
       maruSum[selectableDaysMap.get(entryDay)]++;
-    }
-    for (int i = 0; i < maruSum.length; i++) {
-      if (maruSum[i] > maruSumMax) {
-        maruSumMax = maruSum[i];
+      if (maruSum[selectableDaysMap.get(entryDay)] > maruSumMax) {
+        maruSumMax = maruSum[selectableDaysMap.get(entryDay)];
       }
     }
   }
