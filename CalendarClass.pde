@@ -142,6 +142,30 @@ class Calendar {
 
     return days;
   }
+  
+  void keepSelectableOnlyDays(int[] selectableDays) {
+    for (Day[] row : calendar) {
+      for (Day day : row) {
+        if (selectableDaysContainsDay(selectableDays, day.day)) {
+
+          
+        } else {
+          day.controller.setColorBackground(unselectableColor);
+          day.controller.setColorForeground(unselectableColor);
+          day.controller.lock(); 
+        }
+      }
+    }
+  }
+  
+  boolean selectableDaysContainsDay(int[] selectableDays, int day) {
+    for (int i : selectableDays) {
+      if (i == day) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   void draw() {
     drawTitle();

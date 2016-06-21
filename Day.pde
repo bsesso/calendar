@@ -63,5 +63,6 @@ class Day implements ControlListener {
 
   public void controlEvent(ControlEvent theEvent) {
     this.active = theEvent.getController().isActive();
+    println(this.active);
   }
 }

@@ -12,6 +12,7 @@ int screen;
 ResultScreen rs;
 
 color activeColor = color(0, 200, 30);
+color unselectableColor = color(200);
 color unactiveColor = color(255);
 
 
@@ -143,6 +144,7 @@ void ok() {
     eventName = t_event.getText();
     days = calendar.selectedDays();
     rs = new ResultScreen(days);
+    entryCalendar.keepSelectableOnlyDays(days);
   }
 
   if (screen == 2) {

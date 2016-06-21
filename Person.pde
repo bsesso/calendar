@@ -28,12 +28,18 @@ class Person {
 
     // print a person's entry as "○" or "×"
     for (int i = 0; i < selectableDays.length; i++) {
-      noFill();
+      //noFill();
+      if (searchElem(selectableDays[i], entryDays)) {
+        fill(20, 230, 70);        
+      } else {
+        fill(230, 20, 70);
+    }
       stroke(0);
       rect(xPos, startY + (i + 1) * lineHeight, lineWidth, lineHeight);
       textAlign(LEFT);
       rectMode(CORNER);
 
+      fill(0);
       if (searchElem(selectableDays[i], entryDays)) {
         text("○", xPos + 23, startY + (i + 1) * lineHeight + 20);
       } else 
