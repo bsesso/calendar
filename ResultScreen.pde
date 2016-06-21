@@ -2,6 +2,7 @@ class ResultScreen {
   int selectableDays[];
   Person[] personList = new Person[30];
   int personIndex;
+  int maruSumMax = 0;
   int[] maruSum;
   Map<Integer, Integer> selectableDaysMap;
 
@@ -51,11 +52,22 @@ class ResultScreen {
         
       personList[i].draw();
     }
-
+    noFill();
+    rect(80 + count * lineWidth, 70, lineWidth, lineHeight);
+    textAlign(CENTER);
+    PFont f = createFont("Arial", 13, true); // STEP 2 Create Font
+    textFont(f);                  // STEP 3 Specify font to be used
+    fill(0);                      // STEP 4 Specify font color
+    text("total", 80 + count * lineWidth + 30, 70 + 20);
     for (int i = 0; i < selectableDays.length; i++) {
-      noFill();
+      if (maruSum[i] == maruSumMax) {
+        fill(0, 200, 30);
+      } else {
+        noFill();
+      }
       rect(80 + count * lineWidth, startY + i * lineHeight, lineWidth, lineHeight);
       textAlign(CENTER);
+      fill(0);
       text(Integer.toString(maruSum[i]), 80 + count * lineWidth, startY + 9 +  i * lineHeight, lineWidth, lineHeight);
     }
     
@@ -67,6 +79,9 @@ class ResultScreen {
 
     for (int entryDay : person.entryDays) {
       maruSum[selectableDaysMap.get(entryDay)]++;
+      if (maruSum[selectableDaysMap.get(entryDay)] > maruSumMax) {
+        maruSumMax = maruSum[selectableDaysMap.get(entryDay)];
+      }
     }
   }
 }

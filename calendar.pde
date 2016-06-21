@@ -128,7 +128,7 @@ void selectAll() {
   if (screen == 0) {
     calendar.selectAll();
   } else if (screen == 2) {
-    entryCalendar.selectAll();
+    entryCalendar.selectAll(days);
   }
 }
 
