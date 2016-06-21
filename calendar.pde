@@ -104,6 +104,7 @@ void setup() {
 
 void draw() {
   if (screen == 0) {
+    background(255);
     calendar.draw();
     cp5_extra.draw();
     cp5_event.draw();
@@ -113,7 +114,8 @@ void draw() {
     cp5_rs.draw();
     fill(0);
     textSize(25);
-    text(eventName, 100, 40);
+    textAlign(CENTER);
+    text(eventName, width / 2, 40);
   } else if (screen == 2) {
     background(255);
     entryCalendar.draw();

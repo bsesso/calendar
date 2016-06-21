@@ -123,6 +123,7 @@ public void setup() {
 
 public void draw() {
   if (screen == 0) {
+    background(255);
     calendar.draw();
     cp5_extra.draw();
     cp5_event.draw();
@@ -132,7 +133,8 @@ public void draw() {
     cp5_rs.draw();
     fill(0);
     textSize(25);
-    text(eventName, 100, 40);
+    textAlign(CENTER);
+    text(eventName, width / 2, 40);
   } else if (screen == 2) {
     background(255);
     entryCalendar.draw();
@@ -435,7 +437,6 @@ class Day implements ControlListener {
   public void controlEvent(ControlEvent theEvent) {
     // this.active = theEvent.getController().isActive();
     this.active = !this.active;
-    println(this.active);
   }
 }
 
