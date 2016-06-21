@@ -2,8 +2,11 @@ import controlP5.*;
 
 ControlP5 cp5_create, cp5_entry, cp5_extra, cp5_rs, cp5_event, cp5_name;
 Calendar calendar, entryCalendar;
-
-
+Textfield t_event, t_name;
+String eventName;
+int startX = 80;
+int lineWidth = 60;
+int[] days;
 int screen;
 
 ResultScreen rs;
@@ -51,7 +54,7 @@ void setup() {
     .setSize(70, 30)
     .setCaptionLabel("OK");
 
-  Textfield t = cp5_event.addTextfield("eventName")
+  t_event = cp5_event.addTextfield("eventName")
     .setPosition(180, 70)
     .setSize(130, 40)
     .setFont(createFont("arial", 20))
@@ -59,12 +62,12 @@ void setup() {
     .setAutoClear(false)
     .setColorCaptionLabel(0);
 
-  t.getCaptionLabel()
+  t_event.getCaptionLabel()
     .setText("イベント名")
     .align(ControlP5.LEFT_OUTSIDE, CENTER)
     .getStyle().setPaddingLeft(-10);
 
-  t = cp5_name.addTextfield("name")
+  t_name = cp5_name.addTextfield("name")
     .setPosition(180, 70)
     .setSize(130, 40)
     .setFont(createFont("arial", 20))
@@ -72,7 +75,7 @@ void setup() {
     .setAutoClear(false)
     .setColorCaptionLabel(0);    
 
-  t.getCaptionLabel()
+  t_name.getCaptionLabel()
     .setText("名前")
     .align(ControlP5.LEFT_OUTSIDE, CENTER)
     .getStyle().setPaddingLeft(-10);
@@ -103,12 +106,13 @@ void draw() {
     calendar.draw();
     cp5_extra.draw();
     cp5_event.draw();
-    println(cp5_event.get(Textfield.class,"eventName").getText());
   } else if (screen == 1) {
-
     clear();
     rs.draw();
     cp5_rs.draw();
+    fill(0);
+    textSize(25);
+    text(eventName, 100, 40);
   } else if (screen == 2) {
     background(255);
     entryCalendar.draw();
@@ -133,14 +137,23 @@ void reset() {
   }
 }
 
-void ok() { 
-    screen = 1;
+void ok() {
 
-    int days[] = calendar.selectedDays();
-
+  if (screen == 0) {
+    eventName = t_event.getText();
+    days = calendar.selectedDays();
     rs = new ResultScreen(days);
+  }
 
-    
+  if (screen == 2) {
+    int entryDays[] = entryCalendar.selectedDays();
+    Person person = new Person(t_name.getText(), entryDays, startX, days);
+    startX += lineWidth;
+    rs.addPerson(person);
+    t_name.setText("");
+    reset();
+  }
+  screen = 1;
 }
 
 void entry() {
