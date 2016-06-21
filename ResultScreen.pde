@@ -51,7 +51,7 @@ class ResultScreen {
         
       personList[i].draw();
     }
-
+    
     for (int i = 0; i < selectableDays.length; i++) {
       noFill();
       rect(80 + count * lineWidth, startY + i * lineHeight, lineWidth, lineHeight);

@@ -74,6 +74,18 @@ class Calendar {
         if (calendar[j][i].day > 0) {
           calendar[j][i].setActive(true);
 
+          //println(calendar[j][i].active);
+        }
+      }
+    }
+  }
+  
+  void selectAll(int selectableDays[]) {
+    for (int i = 0; i < 5; i++) {
+      for (int j = 0; j < 7; j++) {
+        if (selectableDaysContainsDay(selectableDays, calendar[j][i].day)) {
+          calendar[j][i].setActive(true);
+
           println(calendar[j][i].active);
         }
       }
@@ -87,7 +99,7 @@ class Calendar {
       }
     }
   }
-
+  
   void drawWDays() {
     PFont f = createFont("Arial", 18, true); // STEP 2 Create Font
     textFont(f);                  // STEP 3 Specify font to be used
